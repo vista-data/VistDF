@@ -9,7 +9,7 @@ class VideoSeries:
     def execute(self):
         video = Video(self.filename)
         for frame in video:
-            yield frame.decode()
+            yield frame.image
     
     def apply(self, fn):
         return LazySeries(fn, self)
