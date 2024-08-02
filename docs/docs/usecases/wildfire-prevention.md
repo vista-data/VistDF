@@ -1,6 +1,7 @@
 ---
 title: Wildfire Prevention
 layout: default
+parent: Layout
 ---
 
 # Object Detection on Google Street View Data
