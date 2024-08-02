@@ -1,1 +1,1 @@
-# [Vi]sual [S]patial [T]emporal DataFrame
+# Visual Spatial Temporal DataFrame
