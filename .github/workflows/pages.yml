@@ -40,22 +40,6 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.10' 
-      - name: API Doc
-        run: |
-          pip install pydoctor
-          pydoctor --project-name=VistDF \
-                   --project-version=0.1.0 \
-                   --project-url=https://vista-data.github.io/VistDF \
-                   --html-viewsource-base=https://github.com/vista-data/VistDF/tree/main \
-                   --make-html \
-                   --html-output=docs/api \
-                   --project-base-dir="." \
-                   --docformat=epytext \
-                   --intersphinx=https://docs.python.org/3/objects.inv \
-                   ./vistdf || true
       - name: Build with Jekyll
         if: always()
         # Outputs to the './_site' directory by default
@@ -68,6 +52,22 @@ jobs:
           cp -r _site ../_site
         env:
           JEKYLL_ENV: production
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' 
+      - name: API Doc
+        run: |
+          pip install pydoctor
+          pydoctor --project-name=VistDF \
+                   --project-version=0.1.0 \
+                   --project-url=https://vista-data.github.io/VistDF \
+                   --html-viewsource-base=https://github.com/vista-data/VistDF/tree/main \
+                   --make-html \
+                   --html-output=_site/api \
+                   --project-base-dir="." \
+                   --docformat=epytext \
+                   --intersphinx=https://docs.python.org/3/objects.inv \
+                   ./vistdf || true
       - name: Upload artifact
         if: always()
         uses: actions/upload-pages-artifact@v3
