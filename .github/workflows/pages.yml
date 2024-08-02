@@ -8,7 +8,7 @@ name: Deploy Jekyll site to Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "doc"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -48,8 +48,8 @@ jobs:
           pip install pydoctor
           pydoctor --project-name=VistDF \
                    --project-version=0.1.0 \
-                   --project-url=https://vista-data.github.io/vistdf \
-                   --html-viewsource-base=https://github.com/vista-data/vistdf/tree/main \
+                   --project-url=https://vista-data.github.io/VistDF \
+                   --html-viewsource-base=https://github.com/vista-data/VistDF/tree/main \
                    --make-html \
                    --html-output=docs/api \
                    --project-base-dir="." \
