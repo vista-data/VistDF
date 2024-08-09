@@ -1,0 +1,6 @@
+ipykernel
+python-lsp-server[all]
+jupyterlab-lsp
+jupyterlab
+notebook
+jupyterlab-vim

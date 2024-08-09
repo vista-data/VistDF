@@ -1,0 +1,36 @@
+name: Type Check
+on:
+  push:
+
+jobs:
+  check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PAT || github.token }}
+          submodules: recursive
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install Dependencies
+        # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: |
+          pip install -e .
+          pip install -r requirements.check.txt
+      
+      - name: Check Python Version
+        run: python --version
+      
+      - name: Check Installed Packages
+        run: pip list
+      
+      - name: Type Check with pyright
+        if: always()
+        run: pyright vistdf
+        env:
+          PYRIGHT_PYTHON_FORCE_VERSION: latest

@@ -3,7 +3,7 @@ import subprocess
 import cv2
 from collections import deque
 
-from .images import Images, Frame, MAX_BUFFER_COUNT, MAX_BUFFER_SIZE
+from .images import BaseImages, Frame, MAX_BUFFER_COUNT, MAX_BUFFER_SIZE
     
 
 def iinterval(filename):
@@ -29,7 +29,7 @@ def iinterval(filename):
             return idx + 1
 
 
-class Video(Images):
+class Video(BaseImages):
     def __init__(self, filename, buffer_size=None):
         self.uri = filename
 
@@ -61,7 +61,8 @@ class Video(Images):
         buffer = self.buffer.pop(index)
         buffer.clear()
 
-    def decode(self, idx: int):
+    def load(self, idx: int | str):
+        assert isinstance(idx, int)
         buffer_window_index = idx // self.buffer_size
         log = [idx, buffer_window_index, False]
         if buffer_window_index not in self.buffer:
@@ -134,7 +135,8 @@ class SliceVideo(Video):
         buffer = self.buffer.pop(index)
         buffer.clear()
 
-    def decode(self, idx):
+    def load(self, idx):
+        assert isinstance(idx, int)
         buffer_window_index = idx // self.buffer_size
         log = [idx, buffer_window_index, False]
         if buffer_window_index not in self.buffer:
