@@ -4,3 +4,4 @@ jupyterlab-lsp
 jupyterlab
 notebook
 jupyterlab-vim
+ipywidgets
