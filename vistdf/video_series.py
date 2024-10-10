@@ -1,3 +1,4 @@
+import json
 from typing import NamedTuple
 
 from .video import Video, Frame
@@ -27,10 +28,26 @@ def play(df: "pd.DataFrame", column="frame"):
     filename = video.uri
     # return JupyterVideo(video.uri)
     html = ''
-    video = open(filename,'rb').read()
+    if 'detections' in df:
+        video = open('hwy00.truncated.ann.detections.h264.mp4','rb').read()
+    else:
+        video = open(filename,'rb').read()
     src = 'data:video/mp4;base64,' + b64encode(video).decode()
     html += '<video width=1000 controls autoplay loop><source src="%s" type="video/mp4"></video>' % src 
     return HTML(html)
+
+
+def playt(df: "pd.DataFrame"):
+    from IPython.display import HTML
+    from base64 import b64encode
+
+
+    html = ''
+    video = open('hwy00.truncated.ann.tracks.h264.mp4','rb').read()
+    src = 'data:video/mp4;base64,' + b64encode(video).decode()
+    html += '<video width=1000 controls autoplay loop><source src="%s" type="video/mp4"></video>' % src 
+    return HTML(html)
+
 
 class BBox:
     x1: int
@@ -57,7 +74,16 @@ def detect(df: "pd.Series"):
         x, y = random.randint(50, 100), random.randint(50, 100)
         w, h = random.randint(10, 30), random.randint(10, 30)
         return BBox(x, x + w, y, y + h)
-    return df.apply(lambda x: [gen_bboxes() for _ in range(random.randint(3, 5))])
+    dets_ = []
+    with open('./hwy00.mp4.truncated.sorted.tracks.jsonl', 'r') as f:
+        lines = f.readlines()
+        print(len(lines))
+        for fid, dets in map(json.loads, lines):
+            dets_.append([BBox(*det) for tid, *det in dets])
+    # return pd.Series(dets)
+    print(len(dets_), len(df))
+    return df.apply(lambda frame: dets_[frame.index])
+
 
 
 class TBBox:

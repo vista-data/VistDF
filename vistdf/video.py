@@ -23,7 +23,7 @@ def iinterval(filename):
 
     for idx, line in enumerate(p.stdout):
         line = str(line, encoding='utf-8').strip()
-        assert line == 'I' or line == 'P', line
+        assert line == 'I' or line == 'P' or line == 'B', line
         if line == 'I':
             p.terminate()
             return idx + 1
