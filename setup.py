@@ -29,5 +29,5 @@ setup(
     author_email=author_email,
     packages=package,
     install_requires=install_requires,
-    python_requires=">=3.11",
+    python_requires=">=3.10",
 )
